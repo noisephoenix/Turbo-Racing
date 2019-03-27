@@ -1,4 +1,7 @@
-﻿const TRACK_W = 40;
+﻿var roadPic = document.createElement("img");
+var wallPic = document.createElement("img");
+
+const TRACK_W = 40;
 const TRACK_H = 40;
 const TRACK_GAP = 2;
 const TRACK_COLS = 20;
@@ -21,6 +24,11 @@ var trackGrid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 const TRACK_ROAD = 0;
 const TRACK_WALL = 1;
 const TRACK_PLAYERSTART = 2;
+
+function trackLoadImages() {
+    roadPic.src = "images/track_road.png";
+    wallPic.src = "images/track_wall.png";
+}
 
 function isWallAtColRow(col, row) {
     if (col >= 0 && col < TRACK_COLS &&
@@ -61,9 +69,12 @@ function drawTracks() {
 
             var arrayIndex = rowColtoArrayIndex(eachCol, eachRow);
 
-            if (trackGrid[arrayIndex] == TRACK_WALL) {
-                colourRect(TRACK_W * eachCol, TRACK_H * eachRow, TRACK_W - TRACK_GAP, TRACK_H - TRACK_GAP, 'blue');
-            } // end of this track here
+            if (trackGrid[arrayIndex] == TRACK_ROAD) {
+                canvasContext.drawImage(roadPic, TRACK_W * eachCol, TRACK_H * eachRow);
+            } else if (trackGrid[arrayIndex] == TRACK_WALL) {
+                canvasContext.drawImage(wallPic, TRACK_W * eachCol, TRACK_H * eachRow);
+
+            }// end of this track here
         } // end of for each col
     } //end of for each row
 } // end of drawTracks func

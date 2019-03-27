@@ -7,6 +7,7 @@ window.onload = function () {
     var framesPerSecond = 30;
     setInterval(updateAll, 1000 / framesPerSecond);
 
+    trackLoadImages();
     setupInput();
     carImageLoad();
     carReset();
@@ -22,15 +23,9 @@ function moveAll() {
     carTrackHandling();
 }
 
-function clearScreen(){
-    colourRect(0, 0, canvas.width, canvas.height, 'black');
-}
-
 function drawAll() {
-    clearScreen();
-    carDraw();
     drawTracks();
-
+    carDraw();
 }
 
 function drawBitmapCenteredWithRotation(useBitmap, atX, atY, withAng) {
