@@ -3,10 +3,13 @@ const KEY_A = 65;
 const KEY_S = 83;
 const KEY_D = 68;
 
-var KeyHeld_Accelerate = false;
-var KeyHeld_Reverse = false;
-var KeyHeld_TurnLeft = false;
-var KeyHeld_TurnRight = false;
+const KEY_UP = 38;
+const KEY_LEFT = 37;
+const KEY_DOWN = 40;
+const KEY_RIGHT = 39;
+
+//37, 38, 40, 39
+
 
 var mouseX = 0;
 var mouseY = 0;
@@ -16,6 +19,9 @@ function setupInput() {
 
     document.addEventListener('keydown', keyPressed);
     document.addEventListener('keyup', keyReleased);
+
+    blueCar.setupInput(KEY_W, KEY_A, KEY_S, KEY_D);
+    greenCar.setupInput(KEY_UP, KEY_LEFT, KEY_DOWN, KEY_RIGHT);
 }
 
 function updateMousePos(evt) {
@@ -34,34 +40,29 @@ function updateMousePos(evt) {
     */
 }
 
+function keySet(keyEvent, whichCar, setTo) {
+    if (keyEvent.keyCode == whichCar.controlKeyUp) {
+        whichCar.KeyHeld_Accelerate = setTo;
+    }
+    if (keyEvent.keyCode == whichCar.controlKeyLeft) {
+        whichCar.KeyHeld_TurnLeft = setTo;
+    }
+    if (keyEvent.keyCode == whichCar.controlKeyDown) {
+        whichCar.KeyHeld_Reverse = setTo;
+    }
+    if (keyEvent.keyCode == whichCar.controlKeyRight) {
+        whichCar.KeyHeld_TurnRight = setTo;
+    }
+}
+
 function keyPressed(evt) {
     //console.log("Key pressed: " +evt.keyCode);
-    if (evt.keyCode == KEY_A) {
-        KeyHeld_TurnLeft = true;
-    }
-    if (evt.keyCode == KEY_D) {
-        KeyHeld_TurnRight = true;
-    }
-    if (evt.keyCode == KEY_W) {
-        KeyHeld_Accelerate = true;
-    }
-    if (evt.keyCode == KEY_S) {
-        KeyHeld_Reverse = true;
-    }
+    keySet(evt, blueCar, true);
+    keySet(evt, greenCar, true);
 }
 
 function keyReleased(evt) {
     //console.log("Key released: " +evt.keyCode);
-    if (evt.keyCode == KEY_A) {
-        KeyHeld_TurnLeft = false;
-    }
-    if (evt.keyCode == KEY_D) {
-        KeyHeld_TurnRight = false;
-    }
-    if (evt.keyCode == KEY_W) {
-        KeyHeld_Accelerate = false;
-    }
-    if (evt.keyCode == KEY_S) {
-        KeyHeld_Reverse = false;
-    }
+    keySet(evt, blueCar, false);
+    keySet(evt, greenCar, false);
 }

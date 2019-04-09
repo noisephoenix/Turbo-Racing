@@ -13,7 +13,7 @@ var trackGrid =    [4, 4, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 4, 4,
                     1, 0, 0, 1, 0, 0, 5, 1, 1, 1, 1, 1, 5, 0, 0, 1, 0, 0, 1, 4,
                     1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 4, 1, 0, 0, 0, 1, 0, 0, 1, 4,
                     1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1,
-                    1, 0, 2, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1,
+                    1, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1,
                     1, 1, 1, 1, 1, 1, 1, 1, 5, 0, 0, 1, 0, 0, 1, 1, 5, 0, 0, 1,
                     0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
                     0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -35,9 +35,9 @@ function isObstacleAtColRow(col, row) {
     }
 }
 
-function carTrackHandling() {
-    var carTrackCol = Math.floor(carX / TRACK_W);
-    var carTrackRow = Math.floor(carY / TRACK_H);
+function carTrackHandling(whichCar) {
+    var carTrackCol = Math.floor(whichCar.x / TRACK_W);
+    var carTrackRow = Math.floor(whichCar.y / TRACK_H);
     var trackIndexUnderCar = rowColtoArrayIndex(carTrackCol, carTrackRow);
 
     // colourText(mouseTrackCol+","+mouseTrackRow+":"+trackIndexUnderMouse, mouseX, mouseY, 'yellow');
@@ -46,9 +46,9 @@ function carTrackHandling() {
         carTrackRow >= 0 && carTrackRow < TRACK_ROWS) {
 
         if (isObstacleAtColRow(carTrackCol, carTrackRow)) {
-            carX -= Math.cos(carAng) * carSpeed;
-            carY -= Math.sin(carAng) * carSpeed;
-            carSpeed *= -0.5;
+            whichCar.x -= Math.cos(whichCar.ang) * whichCar.speed;
+            whichCar.y -= Math.sin(whichCar.ang) * whichCar.speed;
+            whichCar.speed *= -0.5;
 
         } // end of track found
     } // end of valid col and row
@@ -59,14 +59,20 @@ function rowColtoArrayIndex(col, row) {
 }
 
 function drawTracks() {
+    var arrayIndex = 0;
+    var drawTileX = 0;
+    var drawTileY = 0;
     for (var eachRow = 0; eachRow < TRACK_ROWS; eachRow++) {
         for (var eachCol = 0; eachCol < TRACK_COLS; eachCol++) {
-
-            var arrayIndex = rowColtoArrayIndex(eachCol, eachRow);
             var tileKindHere = trackGrid[arrayIndex];
             var useImg = trackPics[tileKindHere];
-            
-            canvasContext.drawImage(useImg, TRACK_W * eachCol, TRACK_H * eachRow);
+            canvasContext.drawImage(useImg, drawTileX, drawTileY);
+
+            drawTileX += TRACK_W;
+            arrayIndex++;
         } // end of for each col
+        drawTileX = 0;
+        drawTileY += TRACK_H;
     } //end of for each row
+    // drawTileY = 0;
 } // end of drawTracks func
