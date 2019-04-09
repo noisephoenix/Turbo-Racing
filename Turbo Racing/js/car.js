@@ -11,6 +11,7 @@ function carClass() {
     this.ang = 0;
     this.speed = 0;
     this.myCarPic; //which car picture to use
+    this.name = "Untitled Car"
 
     this.KeyHeld_Accelerate = false;
     this.KeyHeld_TurnLeft = false;
@@ -30,8 +31,11 @@ function carClass() {
 
     }
 
-    this.reset = function (whichImage) {
+    this.reset = function (whichImage, carName) {
+        this.name = carName;
         this.myCarPic = whichImage;
+        this.speed = 0;
+
         for (var eachRow = 0; eachRow < TRACK_ROWS; eachRow++) {
             for (var eachCol = 0; eachCol < TRACK_COLS; eachCol++) {
                 var arrayIndex = rowColtoArrayIndex(eachCol, eachRow);
@@ -44,6 +48,7 @@ function carClass() {
                 } // end of player start if
             } // end of col for
         } // end of row for
+        console.log("NO PLAYER START FOUND");
     } // end of reset func
 
     this.move = function() {
